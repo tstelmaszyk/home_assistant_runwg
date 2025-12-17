@@ -1,0 +1,54 @@
+name: "WireGuard Custom"
+version: "1.0.4"
+slug: wireguard_custom
+description: "WireGuard VPN Client"
+url: "https://github.com/ton-repo"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+
+# Mode réseau HOST obligatoire
+host_network: true
+
+# Permissions
+privileged:
+  - NET_ADMIN
+  - SYS_MODULE
+  - SYS_ADMIN
+
+# Désactiver AppArmor
+apparmor: false
+
+# Pas d'init système
+init: false
+
+# API Hass.io
+hassio_api: true
+hassio_role: default
+
+# Options
+options:
+  interface:
+    private_key: ""
+    address: "10.0.0.2/24,fd00::/64"
+  peer:
+    public_key: ""
+    preshared_key: ""
+    endpoint: "vpn.example.com:51820"
+    allowed_ips: "0.0.0.0/0, ::0/0"
+
+schema:
+  interface:
+    private_key: str
+    address: str
+  peer:
+    public_key: str
+    preshared_key: str
+    endpoint: str
+    allowed_ips: str
+
+# Logging
+startup: application
+boot: auto
