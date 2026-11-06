@@ -1,5 +1,5 @@
 name: "WireGuard Custom"
-version: "1.0.5"
+version: "1.0.6"
 slug: wireguard_custom
 description: "WireGuard VPN Client"
 url: "https://github.com/tstelmaszyk/home_assistant_runwg"
