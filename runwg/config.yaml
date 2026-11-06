@@ -16,9 +16,6 @@ host_network: true
 privileged:
   - NET_ADMIN
 
-# Désactiver AppArmor
-apparmor: false
-
 # Pas d'init système
 init: false
 
