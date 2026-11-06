@@ -1,5 +1,6 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+# Image de base multi-arch (amd64/aarch64). Depuis Supervisor 2026.04,
+# BUILD_FROM n'est plus fourni : l'image doit être déclarée explicitement.
+FROM ghcr.io/home-assistant/base:3.24
 
 # Installer WireGuard et outils
 RUN apk add --no-cache \

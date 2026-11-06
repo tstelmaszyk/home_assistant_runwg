@@ -6,8 +6,6 @@ url: "https://github.com/tstelmaszyk/home_assistant_runwg"
 arch:
   - aarch64
   - amd64
-  - armhf
-  - armv7
 
 # Mode réseau HOST obligatoire
 host_network: true
