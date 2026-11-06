@@ -2,7 +2,7 @@ name: "WireGuard Custom"
 version: "1.0.5"
 slug: wireguard_custom
 description: "WireGuard VPN Client"
-url: "https://github.com/ton-repo"
+url: "https://github.com/tstelmaszyk/home_assistant_runwg"
 arch:
   - aarch64
   - amd64
