@@ -19,10 +19,6 @@ privileged:
 # Pas d'init système
 init: false
 
-# API Hass.io
-hassio_api: true
-hassio_role: default
-
 # Options
 options:
   interface:
