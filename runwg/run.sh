@@ -15,7 +15,7 @@ echo "Lecture de la configuration..."
 PRIVATE_KEY=$(jq -r '.interface.private_key' "$CONFIG_FILE")
 ADDRESS=$(jq -r '.interface.address' "$CONFIG_FILE")
 PUBLIC_KEY=$(jq -r '.peer.public_key' "$CONFIG_FILE")
-PSK=$(jq -r '.peer.preshared_key' "$CONFIG_FILE")
+PSK=$(jq -r '.peer.preshared_key // ""' "$CONFIG_FILE")
 ENDPOINT=$(jq -r '.peer.endpoint' "$CONFIG_FILE")
 ALLOWED_IPS=$(jq -r '.peer.allowed_ips // "0.0.0.0/0, ::0/0"' "$CONFIG_FILE")
 
@@ -44,10 +44,14 @@ echo "Configuration de WireGuard..."
 wg set wg0 private-key <(echo "$PRIVATE_KEY") \
     listen-port 0 \
     peer "$PUBLIC_KEY" \
-    preshared-key <(echo "$PSK") \
     endpoint "$ENDPOINT" \
     allowed-ips "$ALLOWED_IPS" \
     persistent-keepalive 25
+
+# Clé pré-partagée optionnelle
+if [ -n "$PSK" ]; then
+    wg set wg0 peer "$PUBLIC_KEY" preshared-key <(echo "$PSK")
+fi
 
 # Ajouter les adresses
 echo "Attribution des adresses..."

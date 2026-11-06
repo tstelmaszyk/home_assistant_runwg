@@ -32,11 +32,11 @@ options:
 
 schema:
   interface:
-    private_key: str
+    private_key: password
     address: str
   peer:
     public_key: str
-    preshared_key: str
+    preshared_key: password?
     endpoint: str
     allowed_ips: str
 
