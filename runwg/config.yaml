@@ -12,11 +12,9 @@ arch:
 # Mode réseau HOST obligatoire
 host_network: true
 
-# Permissions
+# Permissions (NET_ADMIN suffit : le module wireguard est fourni par le noyau HA OS)
 privileged:
   - NET_ADMIN
-  - SYS_MODULE
-  - SYS_ADMIN
 
 # Désactiver AppArmor
 apparmor: false
