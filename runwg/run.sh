@@ -126,7 +126,7 @@ else
     echo "Vérifications à faire:"
     echo "  1. Sur le serveur: sudo wg show"
     echo "  2. Vérifier que le port UDP du serveur est ouvert"
-    echo "  3. Tester: nslookup $ENDPOINT"
+    echo "  3. Tester: nslookup ${ENDPOINT%:*}"
 fi
 
 # Test ping optionnel vers l'IP du serveur dans le tunnel
