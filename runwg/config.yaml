@@ -27,6 +27,9 @@ options:
     preshared_key: ""
     endpoint: "vpn.example.com:51820"
     allowed_ips: "0.0.0.0/0, ::0/0"
+    # IP du serveur dans le tunnel (ex. 10.0.0.1), pingée au démarrage.
+    # Vide : pas de ping, seul le handshake est vérifié.
+    check_ip: ""
 
 schema:
   interface:
@@ -37,6 +40,7 @@ schema:
     preshared_key: password?
     endpoint: str
     allowed_ips: str
+    check_ip: str?
 
 # Logging
 startup: application

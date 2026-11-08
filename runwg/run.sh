@@ -18,6 +18,7 @@ PUBLIC_KEY=$(jq -r '.peer.public_key' "$CONFIG_FILE")
 PSK=$(jq -r '.peer.preshared_key // ""' "$CONFIG_FILE")
 ENDPOINT=$(jq -r '.peer.endpoint' "$CONFIG_FILE")
 ALLOWED_IPS=$(jq -r '.peer.allowed_ips // "0.0.0.0/0, ::0/0"' "$CONFIG_FILE")
+CHECK_IP=$(jq -r '.peer.check_ip // ""' "$CONFIG_FILE")
 
 echo "Configuration chargée"
 
@@ -115,22 +116,30 @@ echo ""
 echo "=== Test de connectivité (attente 5s pour handshake) ==="
 sleep 5
 
-# Vérifier le handshake
-echo "Handshake:"
-wg show wg0 latest-handshakes
-
-# Test ping
-echo ""
-echo "Ping vers le serveur VPN..."
-if ping -c 3 -W 5 10.0.0.1; then
-    echo "✓ Connexion au serveur VPN réussie!"
+# Vérifier le handshake (seul indicateur fiable d'un tunnel établi)
+INITIAL_HANDSHAKE=$(wg show wg0 latest-handshakes | awk '{print $2}')
+if [ -n "$INITIAL_HANDSHAKE" ] && [ "$INITIAL_HANDSHAKE" != "0" ]; then
+    echo "✓ Handshake établi avec le serveur"
 else
-    echo "⚠ Pas de réponse du serveur VPN"
+    echo "⚠ Aucun handshake avec le serveur (le serveur ne répond pas)"
     echo ""
     echo "Vérifications à faire:"
     echo "  1. Sur le serveur: sudo wg show"
     echo "  2. Vérifier que le port UDP du serveur est ouvert"
     echo "  3. Tester: nslookup $ENDPOINT"
+fi
+
+# Test ping optionnel vers l'IP du serveur dans le tunnel
+echo ""
+if [ -n "$CHECK_IP" ]; then
+    echo "Ping vers $CHECK_IP..."
+    if ping -c 3 -W 5 "$CHECK_IP"; then
+        echo "✓ Le serveur répond dans le tunnel"
+    else
+        echo "⚠ Pas de réponse de $CHECK_IP"
+    fi
+else
+    echo "check_ip non configuré : test ping ignoré"
 fi
 
 echo ""
